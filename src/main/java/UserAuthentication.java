@@ -13,8 +13,7 @@ public class UserAuthentication {
 
         String verifyEmployee = "SELECT * FROM Employees WHERE username = ? AND password = ?";
 
-        try{
-            PreparedStatement statement = connect.prepareStatement(verifyEmployee);
+        try (PreparedStatement statement = connect.prepareStatement(verifyEmployee)){
             statement.setString(1, username);
             statement.setString(2, password);
 
@@ -35,8 +34,7 @@ public class UserAuthentication {
 
         String verifyAdmin = "SELECT * FROM Admin WHERE adminUsername = ? AND adminPassword = ?";
 
-        try{
-            PreparedStatement statement = connect.prepareStatement(verifyAdmin);
+        try (PreparedStatement statement = connect.prepareStatement(verifyAdmin)){
             statement.setString(1, adminUsername);
             statement.setString(2, adminPassword);
 
@@ -51,3 +49,4 @@ public class UserAuthentication {
     }
 
 }
+
