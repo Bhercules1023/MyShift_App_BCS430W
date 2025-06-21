@@ -5,17 +5,14 @@ import java.sql.DriverManager;
 
 public class DatabaseConnection {
 
-    public Connection databaseLink;
+    private Connection databaseLink;
 
     public Connection getConnection(){
-        String databaseName = "MyShiftDB";
-        String databaseUser = "Group4";
-        String databasePassword = "MyShiftDB";
-        String url = "jdbc:mysql://localhost/" + databaseName;
+
+        String url = "jdbc:sqlite:src/main/resources/MyShiftDB.db";
 
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            databaseLink = DriverManager.getConnection(url, databaseUser, databasePassword);
+            databaseLink = DriverManager.getConnection(url);
         }
         catch (Exception e){
             e.printStackTrace();
