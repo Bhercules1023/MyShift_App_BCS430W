@@ -47,8 +47,7 @@ public class CreateAnnouncementsController {
 
         String insertAnnouncement = "INSERT INTO Announcements (DateAssigned, Message, Sender) VALUES (?, ?, ?)";
 
-        try {
-            PreparedStatement statement = connect.prepareStatement(insertAnnouncement);
+        try (PreparedStatement statement = connect.prepareStatement(insertAnnouncement)) {
             statement.setString(1, date);
             statement.setString(2, message);
             statement.setString(3, sender);
