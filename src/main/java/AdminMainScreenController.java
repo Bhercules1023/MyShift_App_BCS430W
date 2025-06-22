@@ -29,6 +29,9 @@ public class AdminMainScreenController {
     private Button notes;
 
     @FXML
+    private Button logOut;
+
+    @FXML
     private void handleAdminTimeDisplay() throws IOException {
         Stage stage = (Stage) adminTimeDisplay.getScene().getWindow();
         MyShiftApplication.switchScene(stage, "AdminTimeDisplay.fxml");
@@ -65,9 +68,15 @@ public class AdminMainScreenController {
     }
 
     @FXML
-    private void handleNotes() throws IOException{
+    private void handleAdminNotes() throws IOException{
         Stage stage = (Stage) notes.getScene().getWindow();
-        MyShiftApplication.switchScene(stage, "Notes.fxml");
+        MyShiftApplication.switchScene(stage, "adminNotes.fxml");
+    }
+
+    @FXML
+    private void handleLogOut() throws IOException{
+        Stage stage = (Stage) logOut.getScene().getWindow();
+        MyShiftApplication.switchScene(stage, "LoginScreen.fxml");
     }
 
 }
