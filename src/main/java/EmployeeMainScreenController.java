@@ -29,6 +29,9 @@ public class EmployeeMainScreenController {
     private Button notes;
 
     @FXML
+    private Button logOut;
+
+    @FXML
     private void handleTimeDisplay() throws IOException{
         Stage stage = (Stage) timeDisplay.getScene().getWindow();
         MyShiftApplication.switchScene(stage, "TimeDisplay.fxml");
@@ -65,10 +68,15 @@ public class EmployeeMainScreenController {
     }
 
     @FXML
-    private void handleNotes() throws IOException{
+    private void handleEmployeeNotes() throws IOException{
         Stage stage = (Stage) notes.getScene().getWindow();
-        MyShiftApplication.switchScene(stage, "Notes.fxml");
+        MyShiftApplication.switchScene(stage, "EmployeeNotes.fxml");
     }
 
+    @FXML
+    private void handleLogOut() throws IOException{
+        Stage stage = (Stage) logOut.getScene().getWindow();
+        MyShiftApplication.switchScene(stage, "LoginScreen.fxml");
+    }
 
 }
