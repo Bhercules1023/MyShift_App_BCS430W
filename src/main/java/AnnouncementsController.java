@@ -51,8 +51,8 @@ public class AnnouncementsController {
 
         String getAnnouncement = "SELECT * FROM Announcements";
 
-        try{
-            Statement statement = connect.createStatement();
+        try(Statement statement = connect.createStatement()){
+
             ResultSet resultSet = statement.executeQuery(getAnnouncement);
 
             while (resultSet.next()){
