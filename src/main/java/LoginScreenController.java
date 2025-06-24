@@ -28,27 +28,21 @@ public class LoginScreenController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        String adminUsername = usernameField.getText();
-        String adminPassword = passwordField.getText();
-
         if (username.isEmpty() || password.isEmpty()){
             loginFail.setText("Please Enter a Username and Password!");
             return;
         }
 
-        if (adminUsername.isEmpty() || adminPassword.isEmpty()){
-            loginFail.setText("Please Enter a Username and Password!");
-            return;
-        }
+        User validEmployee = UserAuthentication.verifyEmployee(username, password);
+        User validAdmin = UserAuthentication.verifyAdmin(username, password);
 
-        boolean validEmployee = UserAuthentication.verifyEmployee(username, password);
-        boolean validAdmin = UserAuthentication.verifyAdmin(adminUsername, adminPassword);
-
-        if (validEmployee){
+        if (validEmployee != null){
+            CurrentUser.getInstance().setLoggedInUser(validEmployee);
             Stage stage = (Stage) loginButton.getScene().getWindow();
             MyShiftApplication.switchScene(stage, "EmployeeMainScreen.fxml");
         }
-        else if (validAdmin){
+        else if (validAdmin != null){
+            CurrentUser.getInstance().setLoggedInUser(validAdmin);
             Stage stage = (Stage) loginButton.getScene().getWindow();
             MyShiftApplication.switchScene(stage, "AdminMainScreen.fxml");
         }
