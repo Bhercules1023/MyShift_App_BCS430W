@@ -6,45 +6,51 @@ import java.sql.ResultSet;
 
 public class UserAuthentication {
 
-    public static boolean verifyEmployee(String username, String password){
+    public static User verifyEmployee(String username, String password){
 
-        DatabaseConnection database = new DatabaseConnection();
-        Connection connect = database.getConnection();
+        String verifyEmployee = "SELECT ID, username FROM Employees WHERE username = ? AND password = ?";
 
-        String verifyEmployee = "SELECT * FROM Employees WHERE username = ? AND password = ?";
-
-        try (PreparedStatement statement = connect.prepareStatement(verifyEmployee)){
+        try (Connection connect = new DatabaseConnection().getConnection();
+             PreparedStatement statement = connect.prepareStatement(verifyEmployee)){
             statement.setString(1, username);
             statement.setString(2, password);
 
             ResultSet result = statement.executeQuery();
 
-            return result.next();
+            if(result.next()){
+                int id = result.getInt("ID");
+                String user = result.getString("username");
+                return new User(id, user);
+            }
+            return null;
         }
         catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 
-    public static boolean verifyAdmin(String adminUsername, String adminPassword){
+    public static User verifyAdmin(String adminUsername, String adminPassword){
 
-        DatabaseConnection database = new DatabaseConnection();
-        Connection connect = database.getConnection();
+        String verifyAdmin = "SELECT ID, adminUsername FROM Management WHERE adminUsername = ? AND adminPassword = ?";
 
-        String verifyAdmin = "SELECT * FROM Admin WHERE adminUsername = ? AND adminPassword = ?";
-
-        try (PreparedStatement statement = connect.prepareStatement(verifyAdmin)){
+        try (Connection connect = new DatabaseConnection().getConnection();
+             PreparedStatement statement = connect.prepareStatement(verifyAdmin)){
             statement.setString(1, adminUsername);
             statement.setString(2, adminPassword);
 
             ResultSet result = statement.executeQuery();
 
-            return result.next();
+            if(result.next()){
+                int id = result.getInt("ID");
+                String user = result.getString("adminUsername");
+                return new User(id, user);
+            }
+            return null;
         }
         catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 
