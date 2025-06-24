@@ -34,14 +34,15 @@ public class EmployeeNotesController {
     private void handleAddNotes(){
         String note = addNotes.getText();
 
-        DatabaseConnection database = new DatabaseConnection();
-        Connection connect = database.getConnection();
+        User currentUser = CurrentUser.getInstance().getLoggedInUser();
+        int userID = currentUser.getID();
 
-        String insertNote = "INSERT INTO Notes (Note) VALUES(?)";
+        String insertNote = "INSERT INTO EmployeeNotes(EmployeeID, NoteContent) VALUES(?,?)";
 
-        try (PreparedStatement statement = connect.prepareStatement(insertNote)) {
-
-            statement.setString(1, note);
+        try (Connection connect = new DatabaseConnection().getConnection();
+             PreparedStatement statement = connect.prepareStatement(insertNote)) {
+            statement.setInt(1,userID);
+            statement.setString(2, note);
             statement.executeUpdate();
 
             notesList.add(note);
@@ -56,15 +57,16 @@ public class EmployeeNotesController {
     @FXML
     private void handleDeleteNotes(){
 
-        DatabaseConnection database = new DatabaseConnection();
-        Connection connect = database.getConnection();
+        User currentUser = CurrentUser.getInstance().getLoggedInUser();
+        int userID = currentUser.getID();
 
         String selectedNote = displayNotes.getSelectionModel().getSelectedItem();
-        String deleteNote = "DELETE FROM Notes WHERE Note = ?";
+        String deleteNote = "DELETE FROM EmployeeNotes WHERE EmployeeID = ? AND NoteContent = ?";
 
-        try (PreparedStatement statement = connect.prepareStatement(deleteNote)) {
-
-            statement.setString(1, selectedNote);
+        try (Connection connect = new DatabaseConnection().getConnection();
+             PreparedStatement statement = connect.prepareStatement(deleteNote)) {
+            statement.setInt(1, userID);
+            statement.setString(2, selectedNote);
             statement.executeUpdate();
 
             notesList.remove(selectedNote);
@@ -77,15 +79,20 @@ public class EmployeeNotesController {
     }
 
     private void refreshNotesList(){
-        String readNotes = "SELECT * FROM Notes";
+
+        User currentUser = CurrentUser.getInstance().getLoggedInUser();
+        int userID = currentUser.getID();
+
+        String readNotes = "SELECT NoteContent FROM EmployeeNotes WHERE EmployeeID = ?";
 
         try (Connection connect = new DatabaseConnection().getConnection();
              PreparedStatement statement = connect.prepareStatement(readNotes)) {
 
+            statement.setInt(1,userID);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                String note = resultSet.getString("Note");
+                String note = resultSet.getString("NoteContent");
                 notesList.add(note);
             }
         } catch (Exception e) {
@@ -108,13 +115,10 @@ public class EmployeeNotesController {
 
     }
 
-
     @FXML
     private void handleGoBack() throws IOException {
         Stage stage = (Stage) goBack.getScene().getWindow();
         MyShiftApplication.switchScene(stage, "EmployeeMainScreen.fxml");
     }
-
-
 
 }
