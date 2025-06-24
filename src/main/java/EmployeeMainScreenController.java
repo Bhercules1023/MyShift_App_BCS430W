@@ -75,6 +75,7 @@ public class EmployeeMainScreenController {
 
     @FXML
     private void handleLogOut() throws IOException{
+        CurrentUser.getInstance().setLoggedInUser(null);
         Stage stage = (Stage) logOut.getScene().getWindow();
         MyShiftApplication.switchScene(stage, "LoginScreen.fxml");
     }
