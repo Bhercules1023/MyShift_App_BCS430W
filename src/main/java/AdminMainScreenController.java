@@ -70,7 +70,7 @@ public class AdminMainScreenController {
     @FXML
     private void handleAdminNotes() throws IOException{
         Stage stage = (Stage) notes.getScene().getWindow();
-        MyShiftApplication.switchScene(stage, "adminNotes.fxml");
+        MyShiftApplication.switchScene(stage, "AdminNotes.fxml");
     }
 
     @FXML
