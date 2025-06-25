@@ -32,6 +32,15 @@ public class EmployeeMainScreenController {
     private Button logOut;
 
     @FXML
+    private Label usernameLabel;
+
+    @FXML
+    private void initialize(){
+        User currentUser = CurrentUser.getInstance().getLoggedInUser();
+        usernameLabel.setText(currentUser.getUsername() + "!");
+    }
+
+    @FXML
     private void handleTimeDisplay() throws IOException{
         Stage stage = (Stage) timeDisplay.getScene().getWindow();
         MyShiftApplication.switchScene(stage, "TimeDisplay.fxml");
