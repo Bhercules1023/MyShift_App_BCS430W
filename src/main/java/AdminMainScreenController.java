@@ -32,6 +32,15 @@ public class AdminMainScreenController {
     private Button logOut;
 
     @FXML
+    private Label usernameLabel;
+
+    @FXML
+    private void initialize(){
+        User currentUser = CurrentUser.getInstance().getLoggedInUser();
+        usernameLabel.setText(currentUser.getUsername() + "!");
+    }
+
+    @FXML
     private void handleAdminTimeDisplay() throws IOException {
         Stage stage = (Stage) adminTimeDisplay.getScene().getWindow();
         MyShiftApplication.switchScene(stage, "AdminTimeDisplay.fxml");
